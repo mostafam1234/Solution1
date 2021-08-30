@@ -1,0 +1,16 @@
+﻿@model HomeIndexViewModel
+<h2>@Model.Title</h2>
+<div class="row">
+    @foreach (var pie in Model.pies)
+    {
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="/Images/ApplePie.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@pie.Name</h5>
+                <p class="card-text">@pie.Description</p>
+                <a asp-controller="Cart" asp-action="AddToCart" asp-route-PieId="@pie.PieId" class="btn btn-primary">AddToCart</a>
+            </div>
+
+        </div>
+    }
+</div>

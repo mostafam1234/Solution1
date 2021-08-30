@@ -1,0 +1,45 @@
+﻿@model ShoppingCartViewModel
+    <div class="container">
+        <h2>MYCart</h2>
+        <
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Button</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                <tr>
+                    <td>@item.Pie.Name</td>
+                    <td>@item.Pie.Description</td>
+                    <td>@item.Pie.Price.ToString()</td>
+                    <td>@item.Quantity</td>
+                    <td><a class="btn btn-danger" asp-controller="Cart" asp-action="RemoveFromCart" asp-route-PieId="@item.Pie.PieId">RemoveFromCart </a></td>
+
+                </tr>
+                }
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-left">CartTotal:</td>
+                    <td class="text-center">
+                        @Model.ShoppingCartTotal
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div>
+            <a class="btn btn-danger" asp-controller="Cart" asp-action="ClearCart">ClearCart</a>
+            <a class="btn btn-primary" asp-controller="Order" asp-action="Checkout">Checkout</a>
+        </div>
+        
+    </div>

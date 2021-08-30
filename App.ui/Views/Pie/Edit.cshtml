@@ -1,0 +1,61 @@
+﻿@model EditPieViewModel
+
+<form asp-action="Edit" asp-controller="Pie" method="post" class="form-horizontal" role="form">
+    <h4>Edit Pie.</h4>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input type="hidden" asp-for="PieId" value="@Model.PieId" />
+
+    <div class="form-group">
+        <label asp-for="categories">Category List</label>
+        <select class="form-control" asp-for="@Model.CategorId"
+                asp-items="@(new SelectList(Model.categories,"CategoryId","CategoryName"))">
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Name" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Description" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="IsPieOfTheWeek" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="IsPieOfTheWeek" class="form-check" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InStock" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="InStock" class="form-check" />
+            <span asp-validation-for="InStock" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-5">
+            <input type="submit" class="btn btn-primary" value="Edit" />
+        </div>
+    </div>
+</form>
+
+

@@ -1,0 +1,31 @@
+﻿@model DeleteCategoryViewModel
+<form asp-action="Delete" asp-controller="Category" method="post" class="form-horizontal" role="form">
+    <h4>Delete Category.</h4>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+
+
+    <input type="hidden" asp-for="CategoryId" value="@Model.CategoryId" />
+
+
+    <div class="form-group">
+        <label asp-for="CategoryName" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="CategoryName" class="form-control" />
+            <span asp-validation-for="CategoryName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Description" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-5">
+            <input type="submit" class="btn btn-primary" value="Delete" />
+        </div>
+    </div>
+</form>

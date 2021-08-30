@@ -1,0 +1,41 @@
+﻿@model PieListViewModel
+<h2>Pies List</h2>
+<div class="container">
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>button</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pie in Model.pies)
+            {
+                <tr>
+                    <td>@pie.Name</td>
+                    <td>@pie.Description</td>
+                    <td>@pie.Price</td>
+                    <td>
+                        <a class="btn btn-danger" asp-controller="Pie" asp-action="Delete" asp-route-id="@pie.PieId">Delete</a>
+                        <a class="btn btn-primary" asp-controller="Pie" asp-action="Edit" asp-route-id="@pie.PieId">Edit</a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+

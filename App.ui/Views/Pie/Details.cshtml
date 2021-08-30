@@ -1,0 +1,18 @@
+﻿@model PieDetailsViewModel
+@if (Model == null)
+{
+    <h2 class="align-content-center">NO Pie Found</h2>
+}
+else
+{
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="/Images/ApplePie.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text">@Model.Description</p>
+            <a asp-controller="Cart" asp-action="AddToCart" asp-route-PieId="@Model.PieId" class="btn btn-primary">AddToCart</a>
+        </div>
+
+    </div>
+
+}

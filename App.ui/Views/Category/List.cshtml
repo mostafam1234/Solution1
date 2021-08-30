@@ -1,0 +1,31 @@
+﻿@model List<CategoryListViewModel>
+    <div class="container">
+        <h2>Category List</h2>
+       
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>@category.CategoryName</td>
+                        <td>@category.Description</td>
+                        <td>
+                            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@category.CategoryId">Edit</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@category.CategoryId">Delete</a>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+        <div>
+            <a class="btn btn bg-primary" asp-action="Create">Create New Category</a>
+        </div>
+    </div>
