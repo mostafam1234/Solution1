@@ -43,7 +43,8 @@ namespace App.ui
             {
                 mc.AddProfile(new AppMapperProfile());
             });
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -69,10 +70,8 @@ namespace App.ui
             }
             app.UseStaticFiles();
             app.UseSession();
-
-            app.UseRouting();
             app.UseAuthentication();
-
+            app.UseRouting();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

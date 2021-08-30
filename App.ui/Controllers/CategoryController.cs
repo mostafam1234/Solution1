@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace App.ui.Controllers
 {
-    
+    [Authorize(Roles =("Admin"))]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _CategoryRepository;

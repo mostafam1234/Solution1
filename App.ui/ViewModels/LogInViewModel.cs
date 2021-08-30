@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace App.ui.ViewModels
 {
-    public class RegisterViewModel
+    public class LogInViewModel
     {
         [Required]
         [EmailAddress]
@@ -15,10 +15,9 @@ namespace App.ui.ViewModels
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name ="ConfirmPassword")]
-        [Compare("Password",ErrorMessage ="Password and ConfirmPassword Don,t Match")    ]
-        public string ConfirmPassword { get; set; }
+        [Display (Name ="Remember Me")]
+
+        public string ReturnUrl { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

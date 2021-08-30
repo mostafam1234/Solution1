@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SigninManger;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -30,7 +32,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="index">MyCart</a>
                         </li>
-                      
+                        <li class="nav-item">
+                            <partial name="LogInPartialView" />
+                        </li>
+                        
+
                     </ul>
                 </div>
             </div>
