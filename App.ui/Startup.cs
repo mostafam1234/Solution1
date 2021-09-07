@@ -9,7 +9,6 @@ using App.services.ShoppingCartServices;
 using App.ShoppingCartServices.services;
 using App.ui.Helpers;
 using App.ui.Helpers.AutoMapperProfile;
-using App.ui.Helpers.session_helper;
 using App.ui.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;

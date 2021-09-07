@@ -32,6 +32,8 @@ namespace App.services.OrderServices
                 var orderdetail = OrderDetail.Instance( item.Quantity, pie).Value;
                 order.AddOrderDetails(orderdetail);
             }
+            order.CalculateOrderTotal();
+            _Context.orders.Add(order);
             _CartServices.ClearCart(ShoppingCart.CarrtId);
             _Context.SaveChanges();
         }

@@ -44,8 +44,9 @@ namespace App.Logic.Domain
                 Country = country,
                 PhoneNumber = phonenumber,
                 Email = Email,
+                OrderTotal=0,
             };
-            order.OrderTotal = CalculateOrderTotal(order);
+            
             return Result.Success(order);
             
         }
@@ -54,17 +55,17 @@ namespace App.Logic.Domain
             OrderDetails.Add(orderDetail);
         }
 
-        public static decimal CalculateOrderTotal(Order order)
+        public void CalculateOrderTotal()
         {
-            if (order.OrderDetails == null)
+            if (OrderDetails == null)
             {
-                order.OrderTotal = 0;
+                OrderTotal = 0;
             }
             else
             {
-                order.OrderTotal = order.OrderDetails.Sum(o => o.Pie.Price * o.Quantity);
+                OrderTotal = OrderDetails.Sum(o => o.Pie.Price * o.Quantity);
             }
-            return order.OrderTotal;
+            
         }
         }
 
