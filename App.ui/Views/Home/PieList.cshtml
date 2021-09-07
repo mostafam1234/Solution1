@@ -21,7 +21,7 @@
                         <td>@pie.Description</td>
                         <td>@pie.Price</td>
                         <td>
-                            <a class="btn btn-primary" asp-controller="Cart" asp-action="AddToCart" asp-route-PieId="@pie.PieId">Add To Cart</a>
+                            <a class="btn btn-primary" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-PieID="@pie.PieId">Add To Cart</a>
                             <a class="btn btn-primary" asp-controller="Pie" asp-action="Details" asp-route-id="@pie.PieId">View</a>
 
                         </td>

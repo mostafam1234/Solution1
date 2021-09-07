@@ -1,6 +1,7 @@
-﻿using App.Logic;
+﻿using App.DataAccess.Mapping;
+using App.Logic;
 using App.Logic.Domain;
-using App.Logic.Domain.Mapping;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +19,10 @@ namespace App.DataAccess
         }
         public DbSet<Pie> Pies { set; get; }
         public DbSet<Category> Categories { set; get; }
+        public DbSet<ShoppingCartItem> items { set; get; }
         public DbSet<OrderDetail> orderDetails { set; get; }
         public DbSet<Order> orders { set; get; }
+        
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

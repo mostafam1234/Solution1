@@ -1,6 +1,6 @@
 ﻿using App.Logic.Domain;
 using App.services.OrderServices;
-using App.ui.Helpers.session_helper;
+using App.services.ShoppingCartServices;
 using App.ui.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -12,16 +12,15 @@ using System.Threading.Tasks;
 
 namespace App.ui.Controllers
 {
-   
+   [Authorize]
     public class OrderController : Controller
     {
-        private IOrderRepository _OrderRepository;
-        private readonly IMapper _Maper;
-
-        public OrderController(IOrderRepository orderRepository,IMapper mapper)
+        private IOrderServices _OrderServices;
+        private readonly IShoppingCartServices _CartServices;
+        public OrderController(IOrderServices orderServices,IShoppingCartServices shoppingCartServices)
         {
-            _OrderRepository = orderRepository;
-            _Maper = mapper;
+            _OrderServices = orderServices;
+            _CartServices = shoppingCartServices;
         }
 
         [HttpGet]
@@ -32,12 +31,14 @@ namespace App.ui.Controllers
         }
         [HttpPost]
         
-        public IActionResult Checkout(OrderViewModel orderViewModel)
+        public IActionResult Checkout(OrderViewModel VM)
         {
-
-            var order = _Maper.Map<Order>(orderViewModel);
-            var cart = HttpContext.Session.GetObjectFromJson<Cart>("Cart");
-            if (cart.Items.Count == 0)
+            var username = User.Identity.Name;
+            var order = Order.Instance(username, VM.Address, VM.City, VM.Country, VM.PhoneNumber, VM.Email).Value;
+            var CartId = Request.Cookies["CartId"];
+            var CartItems = _CartServices.GetCartItems(CartId);
+            var ShoppingCart = Cart.Instance(CartId, CartItems).Value;
+            if (ShoppingCart.Items.Count == 0)
             {
                 ModelState.AddModelError("", "Your cart is empty, add some pies first");
             }
@@ -45,13 +46,11 @@ namespace App.ui.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _OrderRepository.CreateOrder(cart, order);
-                    cart.ClearCart();
-                    HttpContext.Session.SetObjectAsJson("Cart",cart);
+                    _OrderServices.CreateOrder(ShoppingCart, order);
                     return RedirectToAction("CheckoutComplete");
                 }
             }
-            return View(orderViewModel);
+            return View(VM);
 
         }
         

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CSharpFunctionalExtensions;
 
 namespace App.Logic
 {
@@ -17,14 +18,16 @@ namespace App.Logic
         public int CategoryId { get;private set; }
         public Category Category { get;private set; }
 
+        private Pie()
+        {
 
-
-        public static Pie Instance( string name, string description, decimal price, 
+        }
+        public static Result<Pie> Instance( string name, string description, decimal price, 
             bool ispieoftheweek, bool instock,int Categoryid)
         {
-            if (name == null)
+            if (string.IsNullOrEmpty(name))
             {
-                return null;
+                return Result.Failure<Pie>("the name is required");
             }
             Pie pie = new Pie
             {
@@ -37,7 +40,7 @@ namespace App.Logic
                 InStock = instock,
                 CategoryId = Categoryid,
             };
-            return pie;
+            return Result.Success(pie);
         }
 
         public void Update(string Name, string description, decimal price, bool IsPieOfTheWeek, bool inStock, int CategoryId)

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace App.services.Category_services
 {
-    public interface ICategoryRepository
+    public interface ICategoryServices
     {
         IEnumerable<Category> AllCategories();
         Category GetCategoryByname(string categoryname);

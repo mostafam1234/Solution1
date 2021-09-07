@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿
+using CSharpFunctionalExtensions;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
@@ -13,27 +13,58 @@ namespace App.Logic.Domain
         {
             public int OrderId { get; set; }
         public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string AddressLine1 { get; set; }
-            public string AddressLine2 { get; set; }
-            public string ZipCode { get; set; }
-            public string City { get; set; }
-            public string State { get; set; }
-            public string Country { get; set; }
-            public string PhoneNumber { get; set; }
-            public string Email { get; set; }
+            public string Name { get;private set; }
+            public string Address { get;private set; }
+            public string City { get;private set; }
+            public string Country { get;private set; }
+            public string PhoneNumber { get;private set; }
+            public string Email { get;private set; }
             public decimal OrderTotal { get;private set; }
-            public DateTime OrderPlaced { get; set; } 
-              
+            public DateTime OrderPlaced { get; set; }
+
+
+        private Order()
+        {
+
+        }
+
+        public static Result< Order> Instance(string name, string address,string city,string country,
+            string phonenumber,string Email
+            )
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return Result.Failure<Order>("The Name of Customer must be provided");
+            }
+            var order = new Order
+            {
+                Name = name,
+                Address = address,
+                City = city,
+                Country = country,
+                PhoneNumber = phonenumber,
+                Email = Email,
+            };
+            order.OrderTotal = CalculateOrderTotal(order);
+            return Result.Success(order);
+            
+        }
         public void AddOrderDetails(OrderDetail orderDetail)
         {
             OrderDetails.Add(orderDetail);
         }
 
-        public void CalculateOrderTotal()
+        public static decimal CalculateOrderTotal(Order order)
         {
-            OrderTotal = OrderDetails.Sum(o => o.Pie.Price * o.Quantity);
+            if (order.OrderDetails == null)
+            {
+                order.OrderTotal = 0;
+            }
+            else
+            {
+                order.OrderTotal = order.OrderDetails.Sum(o => o.Pie.Price * o.Quantity);
+            }
+            return order.OrderTotal;
         }
         }
 

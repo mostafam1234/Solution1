@@ -5,7 +5,7 @@ using System.Text;
 
 namespace App.services.OrderServices
 {
-    public interface IOrderRepository
+    public interface IOrderServices
     {
         void CreateOrder(Cart ShoppingCart, Order order);
     }

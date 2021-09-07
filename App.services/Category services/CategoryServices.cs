@@ -8,11 +8,11 @@ using System.Text;
 
 namespace App.services.Category_services
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryServices : ICategoryServices
     {
         private readonly ApplicationDbContext _appDbContext;
 
-        public CategoryRepository(ApplicationDbContext appDbContext)
+        public CategoryServices(ApplicationDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace App.services.Pie_services
 {
-    public interface IPieRepository
+    public interface IPieServices
     {
         IEnumerable<Pie> AllPies { get; }
         IEnumerable<Pie> PiesOfTheWeek { get; }

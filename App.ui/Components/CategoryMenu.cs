@@ -9,8 +9,8 @@ namespace App.ui.Components
 {
     public class CategoryMenu : ViewComponent
     {
-        private readonly ICategoryRepository _categoryRepository;
-        public CategoryMenu(ICategoryRepository categoryRepository)
+        private readonly ICategoryServices _categoryRepository;
+        public CategoryMenu(ICategoryServices categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

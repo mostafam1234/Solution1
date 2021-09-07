@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSharpFunctionalExtensions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,19 +12,31 @@ namespace App.Logic.Domain
         public int PieId { get;private set; }
         public int Quantity { get;private set; }
         public decimal Price { get;private set; }
-        public Pie Pie { get; set; }
-        public Order Order { get; set; }
+        public Pie Pie { get;private set; }
+        public Order Order { get;private set; }
 
-        public static OrderDetail Instance (int Quantity,Pie pie)
+
+        private OrderDetail()
         {
-            var orderDetail = new OrderDetail
-            {
-                PieId = pie.PieId,
-                Quantity = Quantity,
-                Price = pie.Price,
-                Pie = pie
-            };
-            return orderDetail;
+
         }
+        public static Result< OrderDetail> Instance (int Quantity,Pie pie)
+        {
+            if (Quantity<1)
+            {
+                return Result.Failure<OrderDetail>("Quantity can,t be less than 1");
+            }
+            else
+            {
+                var orderDetail = new OrderDetail
+                {
+                    PieId = pie.PieId,
+                    Quantity = Quantity,
+                    Price = pie.Price,
+                    Pie = pie
+                };
+                return Result.Success(orderDetail);
+            }
+        } 
     }
 }

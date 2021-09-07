@@ -1,11 +1,12 @@
+
 using App.DataAccess;
 using App.Logic;
 using App.Logic.Domain;
-using App.services.CartServices;
 using App.services.Category_services;
 using App.services.OrderServices;
 using App.services.Pie_services;
-using App.services.Repository;
+using App.services.ShoppingCartServices;
+using App.ShoppingCartServices.services;
 using App.ui.Helpers;
 using App.ui.Helpers.AutoMapperProfile;
 using App.ui.Helpers.session_helper;
@@ -47,10 +48,10 @@ namespace App.ui
             
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IPieRepository, PieRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<ICartServices, ShoppingCartServices>();
+            services.AddScoped<ICategoryServices,CategoryServices>();
+            services.AddScoped<IPieServices, PieServices>();
+            services.AddScoped<IOrderServices, OrderServices>();
+            services.AddScoped<IShoppingCartServices, ShoppingCartServe>();
             services.AddHttpContextAccessor();
             services.AddSession();
             services.AddControllersWithViews();

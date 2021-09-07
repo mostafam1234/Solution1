@@ -14,19 +14,19 @@ namespace App.ui.Controllers
     [Authorize(Roles =("Admin"))]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _CategoryRepository;
+        private readonly ICategoryServices _CategoryServices;
         private readonly IMapper _Mapper;
 
-        public CategoryController(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoryController(ICategoryServices categoryServices, IMapper mapper)
         {
-            _CategoryRepository = categoryRepository;
+            _CategoryServices = categoryServices;
             _Mapper = mapper;
         }
 
 
         public IActionResult List()
         {
-            var Allcategories = _CategoryRepository.AllCategories();
+            var Allcategories = _CategoryServices.AllCategories();
             var CategoryListViewModel = _Mapper.Map<List<CategoryListViewModel>>(Allcategories);
             return View(CategoryListViewModel);
         }
@@ -42,8 +42,8 @@ namespace App.ui.Controllers
         {
             if (ModelState.IsValid)
             {
-                var CategoryToadd = Category.Instance(createCategoryViewModel.CategoryName, createCategoryViewModel.Description);
-                _CategoryRepository.AddCategory(CategoryToadd);
+                var CategoryToadd = Category.Instance(createCategoryViewModel.CategoryName, createCategoryViewModel.Description).Value;
+                _CategoryServices.AddCategory(CategoryToadd);
                 return RedirectToAction("list");
             }
             else
@@ -55,7 +55,7 @@ namespace App.ui.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var CategoryToEdit = _CategoryRepository.GetCategoryById(id);
+            var CategoryToEdit = _CategoryServices.GetCategoryById(id);
             var CategoryEditViewModel = _Mapper.Map<CategoryEditViewModel>(CategoryToEdit);
 
             return View(CategoryEditViewModel);
@@ -63,11 +63,11 @@ namespace App.ui.Controllers
         [HttpPost]
         public IActionResult Edit(CategoryEditViewModel CategoryEditViewModel)
         {
-            var Category = _CategoryRepository.GetCategoryById(CategoryEditViewModel.CategoryId);
+            var Category = _CategoryServices.GetCategoryById(CategoryEditViewModel.CategoryId);
             if (ModelState.IsValid)
             {
                 Category.Update(CategoryEditViewModel.CategoryName, CategoryEditViewModel.Description);
-                _CategoryRepository.EditCategory(Category);
+                _CategoryServices.EditCategory(Category);
                 return RedirectToAction("List");
             }
             else
@@ -79,15 +79,15 @@ namespace App.ui.Controllers
         [HttpGet]
         public IActionResult Delete (int id)
         {
-            var CategoryToDelete = _CategoryRepository.GetCategoryById(id);
+            var CategoryToDelete = _CategoryServices.GetCategoryById(id);
             var DeleteCategoryViewModel = _Mapper.Map<DeleteCategoryViewModel>(CategoryToDelete);
             return View(DeleteCategoryViewModel);
         }
         [HttpPost]
         public IActionResult Delete(DeleteCategoryViewModel deleteCategoryViewModel)
         {
-            var Category = _CategoryRepository.GetCategoryById(deleteCategoryViewModel.CategoryId);
-            _CategoryRepository.DeleteCategory(Category);
+            var Category = _CategoryServices.GetCategoryById(deleteCategoryViewModel.CategoryId);
+            _CategoryServices.DeleteCategory(Category);
             return RedirectToAction("List");
         }
     }

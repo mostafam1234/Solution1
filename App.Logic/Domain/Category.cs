@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSharpFunctionalExtensions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,16 +12,23 @@ namespace App.Logic
         public string Description { get; private set; }
         public List<Pie> Pies { get; private set; } = new List<Pie>();
 
-
-        public static Category Instance (string Name,string Description)
+        private Category()
         {
+
+        }
+        public static Result<Category> Instance (string Name,string Description)
+        {
+            if (string.IsNullOrEmpty(Name))
+            {
+                return Result.Failure<Category>("The name is required");
+            }
             
             Category category = new Category
             {
                 CategoryName = Name,
                 Description = Description
             };
-            return category;
+            return Result.Success(category);
         }
        
 

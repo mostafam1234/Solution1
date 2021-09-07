@@ -1,7 +1,5 @@
 ﻿using App.Logic;
 using App.Logic.Domain;
-using App.Logic.DTO;
-
 using App.ui.ViewModels;
 using AutoMapper;
 using System;
@@ -17,8 +15,6 @@ namespace App.ui.Helpers.AutoMapperProfile
         {
             CreateMap<Pie, PieListViewModel>();
             CreateMap<Pie, PieDetailsViewModel>();  
-            CreateMap<Pie,PieDto>();
-            CreateMap<OrderViewModel, Order>();
             CreateMap<Category, CategoryEditViewModel>();
             CreateMap<Category, DeleteCategoryViewModel>();
             CreateMap<Category, CategoryListViewModel>();

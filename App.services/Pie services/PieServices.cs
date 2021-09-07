@@ -1,5 +1,6 @@
 ﻿using App.DataAccess;
 using App.Logic;
+using App.services.Pie_services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,11 @@ using System.Text;
 
 namespace App.services.Pie_services
 {
-    public class PieRepository : IPieRepository
+    public class PieServices : IPieServices
     {
         private readonly ApplicationDbContext _appDbContext;
 
-        public PieRepository(ApplicationDbContext appDbContext)
+        public PieServices(ApplicationDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
@@ -25,7 +26,7 @@ namespace App.services.Pie_services
             }
         }
 
-        IEnumerable<Pie> IPieRepository.PiesOfTheWeek => throw new NotImplementedException();
+        IEnumerable<Pie> IPieServices.PiesOfTheWeek => throw new NotImplementedException();
 
         public IEnumerable<Pie> PiesOfTheWeek(bool pieoftheweek)
         {

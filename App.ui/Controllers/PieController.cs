@@ -16,19 +16,19 @@ namespace App.ui.Controllers
     public class PieController : Controller
     {
 
-        private readonly IPieRepository _pieRepository;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IPieServices _PieServices;
+        private readonly ICategoryServices _CategoryServices;
         private readonly IMapper _Mapper;
 
-        public PieController(IPieRepository pieRepository, ICategoryRepository categoryRepository,IMapper mapper)
+        public PieController(IPieServices pieServices, ICategoryServices categoryServices,IMapper mapper)
         {
-            _pieRepository = pieRepository;
-            _categoryRepository = categoryRepository;
+            _PieServices = pieServices;
+            _CategoryServices = categoryServices;
             _Mapper = mapper;
         }
         public IActionResult List()
         {
-            var pies = _pieRepository.AllPies;
+            var pies = _PieServices.AllPies;
             var PieListViewModel = new PieListViewModel
             {
                 pies = pies
@@ -40,14 +40,14 @@ namespace App.ui.Controllers
         [AllowAnonymous]
         public IActionResult Details (int id)
         {
-            var pie = _pieRepository.GetPieById(id);
+            var pie = _PieServices.GetPieById(id);
             var piedetail = _Mapper.Map<PieDetailsViewModel>(pie);
             return View(piedetail);
         }
         [HttpGet]
         public IActionResult Create()
         {
-            var AllCategories = _categoryRepository.AllCategories();
+            var AllCategories = _CategoryServices.AllCategories();
             var CreatePieViewModel = new CreatePieViewModel
             {
                 categories = AllCategories.ToList()
@@ -58,18 +58,19 @@ namespace App.ui.Controllers
         [HttpPost]
         public IActionResult Create (CreatePieViewModel createPieViewModel)
         {
+            
 
             if (ModelState.IsValid)
             {
                 var NewPie = Pie.Instance(createPieViewModel.Name, createPieViewModel.Description
                    , createPieViewModel.Price, createPieViewModel.IsPieOfTheWeek, createPieViewModel.InStock
-                   , createPieViewModel.CategorId);
-                _pieRepository.CreatePie(NewPie);
+                   , createPieViewModel.CategorId).Value;
+                _PieServices.CreatePie(NewPie);
                 return RedirectToAction("List");
             }
             else
             {
-                createPieViewModel.categories = _categoryRepository.AllCategories();
+                createPieViewModel.categories = _CategoryServices.AllCategories();
                 return View(createPieViewModel);
             }
            
@@ -77,24 +78,24 @@ namespace App.ui.Controllers
         [HttpGet]
         public IActionResult Edit (int id)
         {
-            var PieToEdit = _pieRepository.GetPieById(id);
+            var PieToEdit = _PieServices.GetPieById(id);
             var EditPieViewModel = _Mapper.Map<EditPieViewModel>(PieToEdit);
-            EditPieViewModel.categories = _categoryRepository.AllCategories();
+            EditPieViewModel.categories = _CategoryServices.AllCategories();
             return View(EditPieViewModel);
         }
         
         public IActionResult Edit (EditPieViewModel Vm)
         {
-            var pie = _pieRepository.GetPieById(Vm.PieId);
+            var pie = _PieServices.GetPieById(Vm.PieId);
             if (ModelState.IsValid)
             {
                 pie.Update(Vm.Name, Vm.Description, Vm.Price, Vm.IsPieOfTheWeek, Vm.InStock, Vm.CategorId);
-                _pieRepository.EditPie(pie);
+                _PieServices.EditPie(pie);
                 return RedirectToAction("list");
             }
             else
             {
-                var allCategories = _categoryRepository.AllCategories();
+                var allCategories = _CategoryServices.AllCategories();
                 Vm.categories = allCategories;
                 return View(Vm);
             }
@@ -103,16 +104,16 @@ namespace App.ui.Controllers
         [HttpGet]
         public IActionResult Delete (int id)
         {
-            var PieToDelete = _pieRepository.GetPieById(id);
+            var PieToDelete = _PieServices.GetPieById(id);
             var DeletePieViewModel = _Mapper.Map<DeletePieViewModel>(PieToDelete);
-            DeletePieViewModel.CategoryName = _categoryRepository.GetCategoryById(PieToDelete.CategoryId).CategoryName;
+            DeletePieViewModel.CategoryName = _CategoryServices.GetCategoryById(PieToDelete.CategoryId).CategoryName;
             return View(DeletePieViewModel);
         }
         [HttpPost]
         public IActionResult Delete(DeletePieViewModel Vm)
         {
-            var pie = _pieRepository.GetPieById(Vm.PieId);
-            _pieRepository.DeletePie(pie);
+            var pie = _PieServices.GetPieById(Vm.PieId);
+            _PieServices.DeletePie(pie);
             return RedirectToAction("list");
         }
         

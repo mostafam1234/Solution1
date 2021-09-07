@@ -16,21 +16,21 @@ namespace App.ui.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IPieRepository _PieRepository;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IPieServices _PieServices;
+        private readonly ICategoryServices _CategoryServices;
         private readonly IMapper _Mapper;
 
-        public HomeController(ILogger<HomeController> logger,IPieRepository pieRepository,ICategoryRepository categoryRepository,IMapper mapper)
+        public HomeController(ILogger<HomeController> logger,IPieServices pieServices,ICategoryServices categoryServices,IMapper mapper)
         {
             _logger = logger;
-            _PieRepository = pieRepository;
-            _categoryRepository = categoryRepository;
+            _PieServices = pieServices;
+            _CategoryServices = categoryServices;
             _Mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            var pies = _PieRepository.AllPies;
+            var pies = _PieServices.AllPies;
             var HomeIndexViewModel = new HomeIndexViewModel
             {
                 pies = pies,
@@ -42,10 +42,10 @@ namespace App.ui.Controllers
         public IActionResult PieList (int id)
         {
             var pielistviewmodel = new PieListViewModel();
-            var Category = _categoryRepository.GetCategoryById(id);
+            var Category = _CategoryServices.GetCategoryById(id);
             if (Category == null)
             {
-                pielistviewmodel.pies = _PieRepository.AllPies;
+                pielistviewmodel.pies = _PieServices.AllPies;
                 pielistviewmodel.CurrentCategory = "Allpies";
             }
             else
