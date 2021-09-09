@@ -11,7 +11,12 @@ namespace App.Logic.Domain
     
         public class Order
         {
-            public int OrderId { get; set; }
+
+        private Order()
+        {
+            OrderDetails = new List<OrderDetail>();
+        }
+        public int OrderId { get; set; }
         public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
             public string Name { get;private set; }
             public string Address { get;private set; }
@@ -21,12 +26,6 @@ namespace App.Logic.Domain
             public string Email { get;private set; }
             public decimal OrderTotal { get;private set; }
             public DateTime OrderPlaced { get; set; }
-
-
-        private Order()
-        {
-
-        }
 
         public static Result< Order> Instance(string name, string address,string city,string country,
             string phonenumber,string Email,List<OrderDetail> orderDetails
