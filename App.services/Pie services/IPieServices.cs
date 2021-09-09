@@ -11,9 +11,10 @@ namespace App.services.Pie_services
         IEnumerable<Pie> PiesOfTheWeek { get; }
         Pie GetPieById(int pieId);
         public IEnumerable<Pie> GetpiesByCategoryName(string categoryname);
-        void CreatePie(Pie pie);
-        void EditPie(Pie pie);
-        void DeletePie(Pie pie);
+        public void CreatePie(string name, string description, decimal price, bool IsPieofthweek, bool instock, int Categoryid);
+        public bool EditPie(int pieid, int categoryid, string name, string description, decimal price, bool ispieofthweek
+           , bool instock);
+        public bool DeletePie(int pieid);
         IEnumerable<Pie> SearchForPies(string serachTerm);
 
     }

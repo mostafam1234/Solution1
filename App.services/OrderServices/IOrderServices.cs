@@ -7,6 +7,6 @@ namespace App.services.OrderServices
 {
     public interface IOrderServices
     {
-        void CreateOrder(Cart ShoppingCart, Order order);
+        public void CreateOrder(string CartId, string username, string address, string city, string country, string phonenumber);
     }
 }

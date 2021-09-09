@@ -50,22 +50,37 @@ namespace App.services.Pie_services
             return pies;
         }
 
-        public void CreatePie (Pie pie)
+        public void CreatePie (string name,string description,decimal price ,bool IsPieofthweek,bool instock,int Categoryid)
         {
-            _appDbContext.Pies.Add(pie);
+            var PietoAdd = Pie.Instance(name, description, price, IsPieofthweek, instock, Categoryid).Value;
+            _appDbContext.Pies.Add(PietoAdd);
             _appDbContext.SaveChanges();
         }
 
-        public void EditPie(Pie pie)
+        public bool EditPie(int pieid,int categoryid,string name,string description,decimal price,bool ispieofthweek
+            ,bool instock)
         {
-            _appDbContext.Pies.Update(pie);
+            var PieToEdit = _appDbContext.Pies.FirstOrDefault(x => x.PieId == pieid);
+            if (PieToEdit == null)
+            {
+                return false;
+            }
+            PieToEdit.Update(name, description, price, ispieofthweek, instock, categoryid);
+            _appDbContext.Pies.Update(PieToEdit);
             _appDbContext.SaveChanges();
+            return true;
               
         }
-        public void DeletePie(Pie pie)
+        public bool DeletePie(int pieid)
         {
-            _appDbContext.Pies.Remove(pie);
+           var pietodelete= _appDbContext.Pies.FirstOrDefault(x => x.PieId == pieid);
+            if (pietodelete == null)
+            {
+                return false;
+            }
+            _appDbContext.Pies.Remove(pietodelete);
             _appDbContext.SaveChanges();
+            return true;
         }
 
         public IEnumerable<Pie> SearchForPies(string serachTerm)

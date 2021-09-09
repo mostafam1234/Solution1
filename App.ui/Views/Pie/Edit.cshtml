@@ -9,7 +9,7 @@
 
     <div class="form-group">
         <label asp-for="categories">Category List</label>
-        <select class="form-control" asp-for="@Model.CategorId"
+        <select style="width:400px" class="form-control" asp-for="@Model.CategorId"
                 asp-items="@(new SelectList(Model.categories,"CategoryId","CategoryName"))">
         </select>
     </div>

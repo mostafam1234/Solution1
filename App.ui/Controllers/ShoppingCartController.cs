@@ -39,7 +39,7 @@ namespace App.ui.Controllers
             Response.Cookies.Append("CartId", CartId);
             var pie = _PieServices.GetPieById(PieID);
             _ShoppingCartServices.AddToCart(pie, CartId);
-            return RedirectToAction("index");
+            return RedirectToAction("index","Home");
         }
 
         public IActionResult RemoveFromShoppingCart(int Pieid)
@@ -47,13 +47,22 @@ namespace App.ui.Controllers
             var CartId = Request.Cookies["CartId"];
             var pie = _PieServices.GetPieById(Pieid);
             _ShoppingCartServices.RemoveFromCart(pie, CartId);
-            return RedirectToAction("index");
+            var items = _ShoppingCartServices.GetCartItems(CartId);
+            if (items.Count < 1)
+            {
+                return RedirectToAction("index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("index");
+
+            }
         }
         public IActionResult ClearCart()
         {
             var CartId = Request.Cookies["CartId"];
             _ShoppingCartServices.ClearCart(CartId);
-           return RedirectToAction("index");
+           return RedirectToAction("index","Home");
         }
     }
 }

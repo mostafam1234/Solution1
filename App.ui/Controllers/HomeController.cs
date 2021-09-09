@@ -30,7 +30,8 @@ namespace App.ui.Controllers
 
         public IActionResult Index()
         {
-            var pies = _PieServices.AllPies;
+            var pies = _PieServices.AllPies.ToList();
+            
             var HomeIndexViewModel = new HomeIndexViewModel
             {
                 pies = pies,

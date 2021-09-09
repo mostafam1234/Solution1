@@ -26,6 +26,7 @@ namespace App.ui.Controllers
         [HttpGet]
         public IActionResult Checkout()
         {
+
             var orderViewModel = new OrderViewModel();
             return View(orderViewModel);
         }
@@ -34,24 +35,13 @@ namespace App.ui.Controllers
         public IActionResult Checkout(OrderViewModel VM)
         {
             var username = User.Identity.Name;
-            var order = Order.Instance(username, VM.Address, VM.City, VM.Country, VM.PhoneNumber, VM.Email).Value;
-            var CartId = Request.Cookies["CartId"];
-            var CartItems = _CartServices.GetCartItems(CartId);
-            var ShoppingCart = Cart.Instance(CartId, CartItems).Value;
-            if (ShoppingCart.Items.Count == 0)
-            {
-                ModelState.AddModelError("", "Your cart is empty, add some pies first");
-            }
-            else
-            {
+            var CartId = Request.Cookies["CartId"];   
                 if (ModelState.IsValid)
                 {
-                    _OrderServices.CreateOrder(ShoppingCart, order);
+                    _OrderServices.CreateOrder(CartId, username,VM.Address,VM.City,VM.Country,VM.PhoneNumber);
                     return RedirectToAction("CheckoutComplete");
-                }
-            }
+                } 
             return View(VM);
-
         }
         
         public IActionResult CheckoutComplete()

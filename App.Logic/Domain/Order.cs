@@ -29,7 +29,7 @@ namespace App.Logic.Domain
         }
 
         public static Result< Order> Instance(string name, string address,string city,string country,
-            string phonenumber,string Email
+            string phonenumber,string Email,List<OrderDetail> orderDetails
             )
         {
             if (string.IsNullOrEmpty(name))
@@ -44,9 +44,10 @@ namespace App.Logic.Domain
                 Country = country,
                 PhoneNumber = phonenumber,
                 Email = Email,
-                OrderTotal=0,
+                OrderPlaced = DateTime.Now,
+                OrderDetails = orderDetails
             };
-            
+            order.OrderTotal = CalculateOrderTotal(order);
             return Result.Success(order);
             
         }
@@ -55,16 +56,17 @@ namespace App.Logic.Domain
             OrderDetails.Add(orderDetail);
         }
 
-        public void CalculateOrderTotal()
+        public static decimal CalculateOrderTotal(Order order)
         {
-            if (OrderDetails == null)
+            if (order.OrderDetails == null)
             {
-                OrderTotal = 0;
+              order.OrderTotal = 0;
             }
             else
             {
-                OrderTotal = OrderDetails.Sum(o => o.Pie.Price * o.Quantity);
+               order. OrderTotal = order. OrderDetails.Sum(o => o.Pie.Price * o.Quantity);
             }
+            return order.OrderTotal;
             
         }
         }

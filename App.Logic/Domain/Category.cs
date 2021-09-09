@@ -7,15 +7,15 @@ namespace App.Logic
 {
     public class Category
     {
+        private Category()
+        {
+            Pies = new List<Pie>();
+        }
+       
         public int CategoryId { get;private set; }
         public string CategoryName { get;private set; }
         public string Description { get; private set; }
-        public List<Pie> Pies { get; private set; } = new List<Pie>();
-
-        private Category()
-        {
-
-        }
+        public List<Pie> Pies { get; private set; }
         public static Result<Category> Instance (string Name,string Description)
         {
             if (string.IsNullOrEmpty(Name))

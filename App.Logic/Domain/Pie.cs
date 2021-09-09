@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using CSharpFunctionalExtensions;
 
@@ -52,8 +53,14 @@ namespace App.Logic
             this.InStock = inStock;
             this.CategoryId = CategoryId;
 
+            //var ss = Category.Pies.FirstOrDefault();
+
+            //Category.UpdatePies(ss);
+
+
+
         }
-            
+
     }
     
 }

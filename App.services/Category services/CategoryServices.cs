@@ -34,21 +34,35 @@ namespace App.services.Category_services
             return category;
         }
 
-        public void AddCategory(Category category)
+        public void AddCategory(string Name,string Description)
         {
-            _appDbContext.Categories.Add(category);
+            var CategoryToAdd = Category.Instance(Name, Description).Value;
+            _appDbContext.Categories.Add(CategoryToAdd);
             _appDbContext.SaveChanges();
         }
-        public void EditCategory(Category category)
+        public bool EditCategory(string Name,string Description,int id)
         {
+            var category = _appDbContext.Categories.FirstOrDefault(x => x.CategoryId == id);
+            if (category == null)
+            {
+                return false;
+            }
+            category.Update(Name, Description);
             _appDbContext.Categories.Update(category);
             _appDbContext.SaveChanges();
+            return true;
         }
 
-        public void DeleteCategory (Category category)
+        public bool DeleteCategory (int id)
         {
+            var category = _appDbContext.Categories.FirstOrDefault(x => x.CategoryId == id);
+            if (category == null)
+            {
+                return false;
+            }
             _appDbContext.Categories.Remove(category);
             _appDbContext.SaveChanges();
+            return true;
         }
     }
 }

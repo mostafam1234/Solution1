@@ -10,9 +10,9 @@ namespace App.services.Category_services
         IEnumerable<Category> AllCategories();
         Category GetCategoryByname(string categoryname);
         Category GetCategoryById(int id);
-        void AddCategory(Category category);
-         void EditCategory(Category category);
-        void DeleteCategory(Category category);
+        public void AddCategory(string Name, string Description);
+        public bool EditCategory(string Name, string Description, int id);
+        public bool DeleteCategory(int id);
 
     }
 }

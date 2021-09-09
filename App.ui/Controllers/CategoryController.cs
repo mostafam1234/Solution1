@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace App.ui.Controllers
 {
-    [Authorize(Roles =("Admin"))]
+    
     public class CategoryController : Controller
     {
         private readonly ICategoryServices _CategoryServices;
@@ -27,6 +27,7 @@ namespace App.ui.Controllers
         public IActionResult List()
         {
             var Allcategories = _CategoryServices.AllCategories();
+            Allcategories.FirstOrDefault();
             var CategoryListViewModel = _Mapper.Map<List<CategoryListViewModel>>(Allcategories);
             return View(CategoryListViewModel);
         }
@@ -42,8 +43,7 @@ namespace App.ui.Controllers
         {
             if (ModelState.IsValid)
             {
-                var CategoryToadd = Category.Instance(createCategoryViewModel.CategoryName, createCategoryViewModel.Description).Value;
-                _CategoryServices.AddCategory(CategoryToadd);
+                _CategoryServices.AddCategory(createCategoryViewModel.CategoryName,createCategoryViewModel.Description);
                 return RedirectToAction("list");
             }
             else
@@ -63,11 +63,10 @@ namespace App.ui.Controllers
         [HttpPost]
         public IActionResult Edit(CategoryEditViewModel CategoryEditViewModel)
         {
-            var Category = _CategoryServices.GetCategoryById(CategoryEditViewModel.CategoryId);
             if (ModelState.IsValid)
             {
-                Category.Update(CategoryEditViewModel.CategoryName, CategoryEditViewModel.Description);
-                _CategoryServices.EditCategory(Category);
+               var IsUpdated= _CategoryServices.EditCategory(CategoryEditViewModel.CategoryName,CategoryEditViewModel.Description, 
+                    CategoryEditViewModel.CategoryId);
                 return RedirectToAction("List");
             }
             else
@@ -86,8 +85,7 @@ namespace App.ui.Controllers
         [HttpPost]
         public IActionResult Delete(DeleteCategoryViewModel deleteCategoryViewModel)
         {
-            var Category = _CategoryServices.GetCategoryById(deleteCategoryViewModel.CategoryId);
-            _CategoryServices.DeleteCategory(Category);
+           var IsDeleted= _CategoryServices.DeleteCategory(deleteCategoryViewModel.CategoryId);
             return RedirectToAction("List");
         }
     }

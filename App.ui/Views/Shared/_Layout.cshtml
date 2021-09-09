@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SigninManger;
+@inject SignInManager<IdentityUser> signinmanger;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +10,9 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+   
+    <header >
+        <nav   class="header navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">App.ui</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -26,22 +27,38 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="summary">
                             @await Component.InvokeAsync("CategoryMenu")
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="index">MyCart</a>
+
+                        <li class="nav-item" style="">
+                            @await Component.InvokeAsync("CartSummary")
                         </li>
-                        <li class="nav-item">
+
+                        <li class="nav-item offset-5">
                             <partial name="LogInPartialView" />
                         </li>
-                        
-
+                        @if (signinmanger.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="index">Admin</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">
+                <img class="img-responsive" alt="Bethany's Pie Shop'" src="~/Images/bethanylogo.png" />
+            </p>
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -55,7 +72,13 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>  
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+<style>
+    .header
+    {
+        background-color:thistle ! important;
+    }
+</style>

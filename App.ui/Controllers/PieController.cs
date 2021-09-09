@@ -56,22 +56,19 @@ namespace App.ui.Controllers
             return View(CreatePieViewModel);
         }
         [HttpPost]
-        public IActionResult Create (CreatePieViewModel createPieViewModel)
+        public IActionResult Create (CreatePieViewModel VM)
         {
             
 
             if (ModelState.IsValid)
             {
-                var NewPie = Pie.Instance(createPieViewModel.Name, createPieViewModel.Description
-                   , createPieViewModel.Price, createPieViewModel.IsPieOfTheWeek, createPieViewModel.InStock
-                   , createPieViewModel.CategorId).Value;
-                _PieServices.CreatePie(NewPie);
+                _PieServices.CreatePie(VM.Name,VM.Description,VM.Price,VM.IsPieOfTheWeek,VM.InStock,VM.CategorId);
                 return RedirectToAction("List");
             }
             else
             {
-                createPieViewModel.categories = _CategoryServices.AllCategories();
-                return View(createPieViewModel);
+                VM.categories = _CategoryServices.AllCategories();
+                return View(VM);
             }
            
         }
@@ -83,14 +80,13 @@ namespace App.ui.Controllers
             EditPieViewModel.categories = _CategoryServices.AllCategories();
             return View(EditPieViewModel);
         }
-        
+       
         public IActionResult Edit (EditPieViewModel Vm)
         {
-            var pie = _PieServices.GetPieById(Vm.PieId);
             if (ModelState.IsValid)
             {
-                pie.Update(Vm.Name, Vm.Description, Vm.Price, Vm.IsPieOfTheWeek, Vm.InStock, Vm.CategorId);
-                _PieServices.EditPie(pie);
+              var IsUpdated= _PieServices.EditPie(Vm.PieId,Vm.CategorId,Vm.Name,Vm.Description,Vm.Price,Vm.IsPieOfTheWeek
+                    ,Vm.InStock);
                 return RedirectToAction("list");
             }
             else
@@ -112,8 +108,8 @@ namespace App.ui.Controllers
         [HttpPost]
         public IActionResult Delete(DeletePieViewModel Vm)
         {
-            var pie = _PieServices.GetPieById(Vm.PieId);
-            _PieServices.DeletePie(pie);
+            
+          var IsDeleted= _PieServices.DeletePie(Vm.PieId);
             return RedirectToAction("list");
         }
         

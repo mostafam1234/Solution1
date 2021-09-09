@@ -22,12 +22,14 @@
                     <td>
                         <a class="btn btn-danger" asp-controller="Pie" asp-action="Delete" asp-route-id="@pie.PieId">Delete</a>
                         <a class="btn btn-primary" asp-controller="Pie" asp-action="Edit" asp-route-id="@pie.PieId">Edit</a>
-
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+    <div>
+        <a class="btn btn bg-primary" asp-action="Create">Create New Pie</a>
+    </div>
 </div>
 
 

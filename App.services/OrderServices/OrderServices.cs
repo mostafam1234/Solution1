@@ -5,6 +5,7 @@ using App.services.Pie_services;
 using App.services.ShoppingCartServices;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace App.services.OrderServices
@@ -15,26 +16,26 @@ namespace App.services.OrderServices
         private IPieServices _PieServices;
         private readonly IShoppingCartServices _CartServices;
 
-        public OrderServices(ApplicationDbContext context,IPieServices pieServices,IShoppingCartServices cartServices)
+        public OrderServices(ApplicationDbContext context)
         {
-            _Context = context;
-            _PieServices = pieServices;
-            _CartServices = cartServices;
+            _Context = context;  
         }
-        public void CreateOrder(Cart ShoppingCart, Order order)
+        public void CreateOrder(string CartId, string username,string address,string city,string country ,string phonenumber)
         {
-            
-            order.OrderPlaced = DateTime.Now;
+
+            var items = _Context.items.Where(x => x.ShoppingCartId == CartId).ToList();
+            var ShoppingCart = Cart.Instance(CartId, items).Value;
+            var OrderDetails = new List<OrderDetail>();
             
             foreach(var item in ShoppingCart.Items)
             {
-                var pie = _PieServices.GetPieById(item.Pie.PieId);
+                var pie = _Context.Pies.FirstOrDefault(x=>x.PieId==item.Pie.PieId);
                 var orderdetail = OrderDetail.Instance( item.Quantity, pie).Value;
-                order.AddOrderDetails(orderdetail);
+                OrderDetails.Add(orderdetail);
             }
-            order.CalculateOrderTotal();
+            var order = Order.Instance(username, address, city, country, phonenumber, username, OrderDetails).Value;
             _Context.orders.Add(order);
-            _CartServices.ClearCart(ShoppingCart.CarrtId);
+            _CartServices.ClearCart(CartId);
             _Context.SaveChanges();
         }
     }
