@@ -9,13 +9,19 @@ namespace App.Logic
     {
         private Category()
         {
-            Pies = new List<Pie>();
+            _Pies = new List<Pie>();
         }
        
         public int CategoryId { get;private set; }
         public string CategoryName { get;private set; }
         public string Description { get; private set; }
-        public List<Pie> Pies { get; private set; }
+
+        private ICollection<Pie> _Pies;
+        public IReadOnlyCollection<Pie> Pies
+        {
+            get => (IReadOnlyCollection < Pie > )_Pies;
+            private set => _Pies = (ICollection<Pie>)value;
+        }
         public static Result<Category> Instance (string Name,string Description)
         {
             if (string.IsNullOrEmpty(Name))

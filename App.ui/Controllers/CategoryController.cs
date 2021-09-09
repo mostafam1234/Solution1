@@ -27,7 +27,7 @@ namespace App.ui.Controllers
         public IActionResult List()
         {
             var Allcategories = _CategoryServices.AllCategories();
-            Allcategories.FirstOrDefault();
+            
             var CategoryListViewModel = _Mapper.Map<List<CategoryListViewModel>>(Allcategories);
             return View(CategoryListViewModel);
         }
